@@ -1,5 +1,27 @@
-# Spring boot Pub-Sub messaging
+# Spring Boot Docker image deploy to GCP 
+I followed below steps in order to deploy spring-boot app to GCP
+* Create GCP account - Free Account
+* Create a project `($PROJECT_ID)`
+* Create a service Account - type Owner
+* Download the google credential detail as json file . it is important to setup GOOGLE_APPLICATION_CREDENTIALS - if ignored, then Docker container will throws excpetions
+* application property file 
+* Enable Kubernetes API service
+* Enable Container Registry
+* Create topic and subcription
+`topic -gtopic` and `subcription -gsubcription`
+* Build docker image , tag, push to private registry `gcr.io/${PROJECT_ID}/image:tag`
+`docker tag gcloud-pubsub:1 gcr.io/${PROJECT_ID}/gcloud-pubsub:1`
+* verify images before push. Make sure not to push to public registry as you expose your credential
+`docker push gcr.io/${PROJECT_ID}/gcloud-pubsub:1`
+* Verify the image in private registry 
+* Use Deploy container option in Kubernetes API
+* Provide the name as gcloud-pubsub for Application
+* Once deployed, expose the deployment as External Load balancer type providing port 8080:8080
+* POST message using `curl` to public ip and view the container log
 
+
+
+# Google PubSub integration with Spring Boot
 In this repository
 * Send message to channel
 * Delegate message to pubsub template to push to pub-sub topic
